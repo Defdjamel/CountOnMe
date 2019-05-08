@@ -7,14 +7,26 @@
 //
 
 import XCTest
-@testable import SimpleCalc
+@testable import CountOnMe
 
 class SimpleCalcTests: XCTestCase {
+     var calculator: Calculator!
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        calculator = Calculator()
     }
 
+    func rand() -> Int {
+        return Int.random(in: 1..<100)
+    }
+    
+    
+    func testCalculTotal() {
+        let element = ["2","+","8" , "/", "2" ]
+        XCTAssertEqual(calculator.calculTotal(element), 6)
+    }
+    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }

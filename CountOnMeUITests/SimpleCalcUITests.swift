@@ -9,7 +9,8 @@
 import XCTest
 
 class SimpleCalcUITests: XCTestCase {
-
+    var app: XCUIApplication!
+ 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
@@ -17,11 +18,33 @@ class SimpleCalcUITests: XCTestCase {
         continueAfterFailure = false
 
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
+        app = XCUIApplication()
+        app.launch()
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+       
     }
 
+    func testCalul(){
+        app.buttons["1"].tap()
+        app.buttons["+"].tap()
+        app.buttons["3"].tap()
+        app.buttons["x"].tap()
+        app.buttons["7"].tap()
+        app.buttons["="].tap()
+        let txt = app.textViews["1 + 3 x 7 = 22.0"]
+        
+        XCTAssertTrue(txt.exists, "Result incorrect")
+    }
+    
+    func testCalculError(){
+        app.buttons["1"].tap()
+        app.buttons["+"].tap()
+        app.buttons["+"].tap()
+        
+        XCTAssertTrue(app.alerts.buttons["OK"].exists, "Alert not display")
+    }
+    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
