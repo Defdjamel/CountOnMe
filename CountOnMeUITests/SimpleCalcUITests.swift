@@ -27,12 +27,13 @@ class SimpleCalcUITests: XCTestCase {
 
     func testCalul(){
         app.buttons["1"].tap()
+        app.buttons["5"].tap()
         app.buttons["+"].tap()
         app.buttons["3"].tap()
         app.buttons["x"].tap()
         app.buttons["7"].tap()
         app.buttons["="].tap()
-        let txt = app.textViews["1 + 3 x 7 = 22.0"]
+        let txt = app.textViews["15 + 3 x 7 = 36.0"]
         
         XCTAssertTrue(txt.exists, "Result incorrect")
     }
