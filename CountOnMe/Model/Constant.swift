@@ -18,4 +18,5 @@ public enum OperatorCalculator : String{
     case substraction = "-"
     case division = "/"
     case multiplication = "x"
+     case egal = "="
 }

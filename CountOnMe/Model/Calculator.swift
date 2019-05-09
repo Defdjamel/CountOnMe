@@ -38,7 +38,14 @@ class Calculator: NSObject {
     ///
     /// - Parameter element: String 
     func addElement(_ element : String ){
-        elements.append(element)
+        if let last = elements.last ,!Calculator.operands.contains(element) ,!Calculator.operands.contains(last) {
+            let newNumber =  last + element
+            elements.removeLast()
+           elements.append(newNumber)
+        }else{
+            elements.append(element)
+        }
+        
     }
     
     
@@ -60,7 +67,7 @@ class Calculator: NSObject {
     
    /// return  list operators used
    class var operands: [String] {
-        return [OperatorCalculator.addition.rawValue, OperatorCalculator.substraction.rawValue, OperatorCalculator.division.rawValue,OperatorCalculator.multiplication.rawValue]
+        return [OperatorCalculator.addition.rawValue, OperatorCalculator.substraction.rawValue, OperatorCalculator.division.rawValue,OperatorCalculator.multiplication.rawValue,OperatorCalculator.egal.rawValue]
     }
     
     /// Calcul Total , manage  operator + - / x and priority
