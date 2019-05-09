@@ -8,21 +8,55 @@
 
 import UIKit
 
-/// OperatorCalculator enumeration of operators
-///
-/// - addition: +
-/// - substraction: -
-/// - division: /
-/// - multiplication: x
-public enum OperatorCalculator : String{
-    case addition = "+"
-    case substraction = "-"
-    case division = "/"
-    case multiplication = "x"
-}
-
-
 class Calculator: NSObject {
+    var elements  : [String] = []
+    
+    var  expressionIsCorrect : Bool {
+        guard let lastElement = elements.last else {
+            return false
+        }
+        return !Calculator.operands.contains(lastElement)
+    }
+    
+    var  expressionHaveEnoughElement:Bool {
+        return elements.count >= 3
+    }
+    
+    var canAddOperator:Bool {
+        guard let lastElement = elements.last else {
+            return false
+        }
+        return !Calculator.operands.contains(lastElement)
+    }
+    
+    var expressionHaveResult: Bool {
+        return elements.contains("=")
+    }
+    
+    
+    /// add a new operator or number
+    ///
+    /// - Parameter element: String 
+    func addElement(_ element : String ){
+        elements.append(element)
+    }
+    
+    
+    /// Restart a new calul
+    func resetElement(){
+        elements.removeAll()
+    }
+    
+    /// return a human readable current operation
+    ///
+    /// - Returns: value to display
+    func getDisplay()-> String{
+        var text = ""
+        for element in elements {
+            text.append(" \(element) ")
+        }
+        return text
+    }
     
    /// return  list operators used
    class var operands: [String] {
@@ -33,7 +67,7 @@ class Calculator: NSObject {
     ///
     /// - Parameter element: value and operant elements
     /// - Returns: Float(Total)
-    func calculTotal(_ elements : [String]) -> Float{
+    func calculTotal() -> Float{
         
        var operationsToReduce = elements
        

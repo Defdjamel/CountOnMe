@@ -23,8 +23,12 @@ class SimpleCalcTests: XCTestCase {
     
     
     func testCalculTotal() {
-        let element = ["2","+","8" , "/", "2" ]
-        XCTAssertEqual(calculator.calculTotal(element), 6)
+        calculator.resetElement()
+        calculator.addElement("2")
+        calculator.addElement("+")
+        calculator.addElement("4")
+        
+        XCTAssertEqual(calculator.calculTotal(), 6)
     }
     
     override func tearDown() {

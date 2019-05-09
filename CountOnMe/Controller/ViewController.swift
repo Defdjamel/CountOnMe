@@ -13,101 +13,81 @@ class ViewController: UIViewController {
     @IBOutlet var numberButtons: [UIButton]!
     var calculator = Calculator()
     
-    
-    var elements: [String] {
-        return textView.text.split(separator: " ").map { "\($0)" }
-    }
-    
-    // Error check computed variables
-    
-    var expressionIsCorrect: Bool {
-        guard let lastElement = elements.last else {
-            return false
-        }
-        return !Calculator.operands.contains(lastElement)
-    }
-    
-    var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
-    }
-    
-    var canAddOperator: Bool {
-        guard let lastElement = elements.last else {
-            return false
-        }
-        return !Calculator.operands.contains(lastElement)
-    }
-    
-    var expressionHaveResult: Bool {
-        return textView.text.firstIndex(of: "=") != nil
-    }
-    
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
     
+    func updateTextView(){
+         textView.text = calculator.getDisplay()
+    }
     
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
             return
         }
-        
-        if expressionHaveResult {
+        if calculator.expressionHaveResult {
             textView.text = ""
+            calculator.resetElement()
         }
-        
-        textView.text.append(numberText)
+        calculator.addElement(numberText)
+        updateTextView()
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        if canAddOperator && !expressionHaveResult {
-            textView.text.append(" \(OperatorCalculator.addition.rawValue) ")
+        if calculator.canAddOperator && !calculator.expressionHaveResult {
+            
+            calculator.addElement(OperatorCalculator.addition.rawValue)
+            updateTextView()
         } else {
            self.showAlertOk("Zéro!",  "Un operateur est déja mis !")
         }
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if canAddOperator && !expressionHaveResult {
-            textView.text.append(" \(OperatorCalculator.substraction.rawValue) ")
+        if calculator.canAddOperator && !calculator.expressionHaveResult {
+            
+            calculator.addElement(OperatorCalculator.substraction.rawValue)
+            updateTextView()
         } else {
              self.showAlertOk("Zéro!",  "Un operateur est déja mis !")
         }
     }
     
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
-        if canAddOperator && !expressionHaveResult {
-            textView.text.append(" \(OperatorCalculator.division.rawValue) ")
+         if calculator.canAddOperator && !calculator.expressionHaveResult {
+            calculator.addElement(OperatorCalculator.division.rawValue)
+            updateTextView()
         } else {
             self.showAlertOk("Zéro!",  "Un operateur est déja mis !")
         }
     }
     
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
-        if canAddOperator && !expressionHaveResult {
-            textView.text.append(" \(OperatorCalculator.multiplication.rawValue) ")
+         if calculator.canAddOperator && !calculator.expressionHaveResult {
+            calculator.addElement(OperatorCalculator.multiplication.rawValue)
+            updateTextView()
         } else {
              self.showAlertOk("Zéro!",  "Un operateur est déja mis !")
         }
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard expressionIsCorrect else {
+        guard calculator.expressionIsCorrect else {
             return  self.showAlertOk("Zéro!",   "Entrez une expression correcte !")
         }
-        guard expressionHaveEnoughElement else {
+        guard calculator.expressionHaveEnoughElement else {
              return  self.showAlertOk("Zéro!",  "Démarrez un nouveau calcul !")
         }
-        guard !expressionHaveResult else {
+        guard !calculator.expressionHaveResult else {
             return  self.showAlertOk("Zéro!",  "Démarrez un nouveau calcul !")
         }
-        let result = calculator.calculTotal(elements)
-        
-        textView.text.append(" = \(result)")
+        let result = calculator.calculTotal()
+        calculator.addElement("=")
+         calculator.addElement("\(result)")
+        updateTextView()
     }
 
 }
-
